@@ -1,11 +1,12 @@
 var apikey = 'b5749836178866bb15f4b41b15ac30c692573f21'; // Put your API key here
 var i = 0;
 var results = [];
+var displayArray = [];
 
 // Use this function to do stuff with your results. 
 // It is called after 'search' is executed.
 function searchCallback(results) {
-    var displayArray = [];
+    displayArray = [];
     displayArray = results;
     console.log(results);
 
@@ -26,7 +27,7 @@ function searchCallback(results) {
 
         // Check if platform is array, and if it has multiple items store to platformString
         var platformString = "<br>";
-        if(displayArray[i].platforms.length){
+        if(!displayArray[i].platforms.length){
             platformString += "N/A";
         } else {
             for (j = 0; j < displayArray[i].platforms.length; j++) {
@@ -47,6 +48,7 @@ function searchCallback(results) {
         $(this).toggleClass('big');
         $(this).children('p').toggleClass('hidden');
     });
+    return displayArray;
 }
 
 $(document).ready(function() {
@@ -56,8 +58,18 @@ $(document).ready(function() {
 
     $('.searchButton').on('click', function(){
         $('.results').empty();
-        search($('.searchInput').val());
-    })
+        displayArray = search($('.searchInput').val());
+    });
+
+    $('.filterButton').on('click', function(){
+        var found_names = $.grep(displayArray, function(obj) {
+            return obj.name.indexOf($('.filterInput').val()) >= 0;
+        });
+        console.log($('.filterInput').val());
+        $('.results').empty();
+        console.log(found_names);
+        searchCallback(found_names);
+    });
 });
 
 // HELPER FUNCTION
