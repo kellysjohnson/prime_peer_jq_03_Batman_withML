@@ -8,48 +8,35 @@ function searchCallback(results) {
     var displayArray = [];
     displayArray = results;
     console.log(results);
-
-    // JUST NAME AND IMAGE:
+    
     for (i = 0; i < 12; i++) {
+        // Check if description is null, if null, use deck, store to descriptionString
+        var descriptionString = "";
+        if (displayArray[i].description == null) {
+            descriptionString = displayArray[i].deck;
+            console.log(descriptionString);
+        } else {
+            descriptionString = displayArray[i].description;
+        }
+        // Truncate descriptionString
+        descriptionString = descriptionString.slice(0,100);
+
+        // Check if platform is array, and if it has multiple items store to platformString
+        var platformString = "<br>";
+        for (j = 0; j < displayArray[i].platforms.length; j++) {
+            platformString += displayArray[i].platforms[j].name + ", ";
+        }
         // Display image, which is an object not an array.
         imgURL = results[i].image.small_url;
 
-        $('.results').append("<div class='col-md-4 images'><img src='" + imgURL + "'><br>" + "Name: " + results[i].name + "<p class='hidden'>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent mollis dui nec neque feugiat ultricies at vitae nunc. Pellentesque ac leo ipsum. Aenean nec elementum felis, non elementum mauris. Duis sit amet nunc et nibh ornare faucibus sed nec odio. Pellentesque tellus mauris, fringilla et efficitur vel, accumsan vel dui. Curabitur eleifend sapien orci, quis ornare est mollis eget. Vivamus quis est elit.</p></div>");
+        $('.results').append("<div class='col-md-4 images'><img src='" + imgURL + "'><br>" + "Name: " + results[i].name + "<p class='hidden'>Release Date: " + results[i].original_release_date + "<br>Platform(s): " + platformString + "<br>Description: " + descriptionString + "</p></div>");
     }
 
-    $('.images').on('click', function(){
-
-        $(this).toggleClass('big');  //css('height', '+=200px'); //.css('width', '+=200px')
+    $('.images').on('click', function () {
+        $(this).toggleClass('big');
         $(this).children('p').toggleClass('hidden');
     });
-
-
 }
-    //// FULL INFO:
-    //
-    //// Check if description is null, if null, use deck, store to descriptionString
-    //var descriptionString = "";
-    //if(displayArray[0].description==null){
-    //    descriptionString = displayArray[0].deck;
-    //    console.log(descriptionString);
-    //} else {
-    //    descriptionString = displayArray[0].description;
-    //}
-    //
-    //// Check if platform is array, and if it has multiple items store to platformString
-    //var platformString = "<br>";
-    //for(i = 0; i < displayArray[0].platforms.length; i++){
-    //    platformString += displayArray[0].platforms[i].name ", ";
-    //}
-    //
-    //// Display image, which is an object not an array.
-    //imgURL = results[0].image.small_url;
-    //
-    //$('.results').html("<img src='"+imgURL+ "'><br>" + "Name: " + results[0].name + "<br>Release Date: " + results[0].original_release_date + "<br>Platform(s): " + platformString + "<br>Description: " + descriptionString);
-
-
-
-
 
 $(document).ready(function() {
 
