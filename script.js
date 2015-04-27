@@ -1,20 +1,35 @@
 var apikey = 'b5749836178866bb15f4b41b15ac30c692573f21'; // Put your API key here
+var i = 0;
+var results = [];
 
 // Use this function to do stuff with your results. 
 // It is called after 'search' is executed.
 function searchCallback(results) {
-    var displayArray = results;
-    console.log(results[0]);
+    var displayArray = [];
+    displayArray = results;
+    console.log(results);
 
     // Check if description is null, if null, use deck, store to descriptionString
-
+    var descriptionString = "";
+    if(displayArray[0].description==null){
+        descriptionString = displayArray[0].deck;
+        console.log(descriptionString);
+    } else {
+        descriptionString = displayArray[0].description;
+    }
+    
     // Check if platform is array, and if it has multiple items store to platformString
+    var platformString = "<ul>";
+    for(i = 0; i < displayArray[0].platforms.length; i++){
+        platformString += "<li>" + displayArray[0].platforms[i].name + "</li>"
+    }
+    platformString += "</ul>";
 
     // Display image, which is an object not an array.
     imgURL = results[0].image.small_url;
 
-    $('.results').html("<img src='"+imgURL+ "'><br>" + "Name: " + results[0].name + "<br>Release Date: " + results[0].original_release_date + "<br>Platform(s): ");
-        //platformString + "<br>Description: " + descriptionString);
+
+    $('.results').html("<img src='"+imgURL+ "'><br>" + "Name: " + results[0].name + "<br>Release Date: " + results[0].original_release_date + "<br>Platform(s): " + platformString + "<br>Description: " + descriptionString);
 
 }
 
