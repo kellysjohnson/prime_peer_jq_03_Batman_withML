@@ -44,7 +44,12 @@ function searchCallback(results) {
 $(document).ready(function() {
 
 	// Start the search here!
-	search('batman');
+	//search('batman');
+
+    $('.searchButton').on('click', function(){
+        $('.results').empty();
+        search($('.searchInput').val());
+    })
 });
 
 // HELPER FUNCTION
