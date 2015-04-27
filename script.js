@@ -26,13 +26,21 @@ function searchCallback(results) {
 
         // Check if platform is array, and if it has multiple items store to platformString
         var platformString = "<br>";
-        for (j = 0; j < displayArray[i].platforms.length; j++) {
-            platformString += displayArray[i].platforms[j].name + ", ";
+        if(displayArray[i].platforms.length){
+            platformString += "N/A";
+        } else {
+            for (j = 0; j < displayArray[i].platforms.length; j++) {
+                platformString += displayArray[i].platforms[j].name + ", ";
+            }
         }
         // Display image, which is an object not an array.
-        imgURL = results[i].image.small_url;
+        if(!results[i].image){
+            imgURL = "<img src='sad_face.jpg'>";
+        } else {
+            imgURL = "<img src='" + results[i].image.small_url + "'>";
+        }
 
-        $('.results').append("<div class='col-md-6 images'><img src='" + imgURL + "'><br>" + "Name: " + results[i].name + "<p class='hidden'>Release Date: " + results[i].original_release_date + "<br>Platform(s): " + platformString + "<br>Description: " + descriptionString + "</p></div>");
+        $('.results').append("<div class='col-md-6 images'>" + imgURL + "<br>" + "Name: " + results[i].name + "<p class='hidden'>Release Date: " + results[i].original_release_date + "<br>Platform(s): " + platformString + "<br>Description: " + descriptionString + "</p></div>");
     }
 
     $('.images').on('click', function () {
