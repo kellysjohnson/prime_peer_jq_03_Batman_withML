@@ -1,10 +1,12 @@
 img {
-    height: 200px;
-    width: 200px;
+    height: 75%;
+    width: 90%;
 }
 
 .images {
     border: solid black;
+    height: 400px;
+    width: 300px;
 }
 
 .hidden {
@@ -12,7 +14,12 @@ img {
 }
 
 .big {
-    height: 400px;
+    /*height: auto;*/
+}
+
+.big img {
+    height: 45%;
+    width: 45%;
 }
 
 span {
