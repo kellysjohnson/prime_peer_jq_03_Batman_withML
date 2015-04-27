@@ -8,18 +8,21 @@ function searchCallback(results) {
     var displayArray = [];
     displayArray = results;
     console.log(results);
-    
-    for (i = 0; i < 12; i++) {
+
+    for (i = 0; i < displayArray.length; i++) {
         // Check if description is null, if null, use deck, store to descriptionString
         var descriptionString = "";
-        if (displayArray[i].description == null) {
+        if (displayArray[i].description == null || "  " || " ") {
             descriptionString = displayArray[i].deck;
-            console.log(descriptionString);
+            if (displayArray[i].deck == null){
+                descriptionString = "No Description Available";
+            }
         } else {
             descriptionString = displayArray[i].description;
         }
-        // Truncate descriptionString
-        descriptionString = descriptionString.slice(0,100);
+        // Truncate and clean descriptionString
+        descriptionString = descriptionString.replace(/<(?:.|\n)*?>/gm, '');
+        descriptionString = descriptionString.slice(0,150);
 
         // Check if platform is array, and if it has multiple items store to platformString
         var platformString = "<br>";
@@ -29,7 +32,7 @@ function searchCallback(results) {
         // Display image, which is an object not an array.
         imgURL = results[i].image.small_url;
 
-        $('.results').append("<div class='col-md-4 images'><img src='" + imgURL + "'><br>" + "Name: " + results[i].name + "<p class='hidden'>Release Date: " + results[i].original_release_date + "<br>Platform(s): " + platformString + "<br>Description: " + descriptionString + "</p></div>");
+        $('.results').append("<div class='col-md-6 images'><img src='" + imgURL + "'><br>" + "Name: " + results[i].name + "<p class='hidden'>Release Date: " + results[i].original_release_date + "<br>Platform(s): " + platformString + "<br>Description: " + descriptionString + "</p></div>");
     }
 
     $('.images').on('click', function () {
