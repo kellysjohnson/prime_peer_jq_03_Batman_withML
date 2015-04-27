@@ -14,8 +14,15 @@ function searchCallback(results) {
         // Display image, which is an object not an array.
         imgURL = results[i].image.small_url;
 
-        $('.results').append("<div class='col-md-4'><img src='" + imgURL + "'><br>" + "Name: " + results[i].name + "</div>");
+        $('.results').append("<div class='col-md-4 images'><img src='" + imgURL + "'><br>" + "Name: " + results[i].name + "<p class='hidden'>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent mollis dui nec neque feugiat ultricies at vitae nunc. Pellentesque ac leo ipsum. Aenean nec elementum felis, non elementum mauris. Duis sit amet nunc et nibh ornare faucibus sed nec odio. Pellentesque tellus mauris, fringilla et efficitur vel, accumsan vel dui. Curabitur eleifend sapien orci, quis ornare est mollis eget. Vivamus quis est elit.</p></div>");
     }
+
+    $('.images').on('click', function(){
+
+        $(this).toggleClass('big');  //css('height', '+=200px'); //.css('width', '+=200px')
+        $(this).children('p').toggleClass('hidden');
+    });
+
 
 }
     //// FULL INFO:
