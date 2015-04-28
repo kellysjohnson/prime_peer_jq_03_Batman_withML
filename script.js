@@ -2,13 +2,13 @@ var apikey = 'b5749836178866bb15f4b41b15ac30c692573f21'; // Put your API key her
 var i = 0;
 var results = [];
 var displayArray = [];
+var copiedArray = [];
 
 // Use this function to do stuff with your results. 
 // It is called after 'search' is executed.
 function searchCallback(results) {
     displayArray = [];
     displayArray = results;
-    console.log(results);
 
     for (i = 0; i < displayArray.length; i++) {
         // Check if description is null, if null, use deck, store to descriptionString
@@ -61,18 +61,41 @@ $(document).ready(function() {
         displayArray = search($('.searchInput').val());
     });
 
-    $('.filterButton').on('click', function(){
-        var found_names = $.grep(displayArray, function(obj) {
-            return obj.name.indexOf($('.filterInput').val()) >= 0;
-        });
-        console.log($('.filterInput').val());
-        $('.results').empty();
-        console.log(found_names);
-        searchCallback(found_names);
+    $('.searchInput').keyup(function(key){
+        if(key.keyCode ==13){
+            $('.results').empty();
+            displayArray = search($('searchInput').val());
+        }
     });
 
+    $('.filterButton').on('click', function(){
+        copiedArray = displayArray.slice();
+        copiedArray = $.grep(copiedArray, function (obj) {
+            return obj.name.indexOf($('.filterInput').val()) >= 0;
+        });
+        $('.results').empty();
+        searchCallback(copiedArray);
+    });
+
+    $('.filterInput').keyup(function(key){
+        if(key.keyCode ==13) {
+            copiedArray = displayArray.slice();
+            copiedArray = $.grep(copiedArray, function (obj) {
+                return obj.name.indexOf($('.filterInput').val()) >= 0;
+            });
+            $('.results').empty();
+            searchCallback(copiedArray);
+        }
+        });
+
     $('.sortButton').on('click', function(){
-        displayArray.sort(function(a,b){
+        var sortArray;
+        if(copiedArray.length == 0 ) {
+            sortArray = displayArray;
+        } else{
+          sortArray = copiedArray;
+        }
+        sortArray.sort(function(a,b){
             if (a.name > b.name) {
                 return 1;
             }
@@ -82,7 +105,7 @@ $(document).ready(function() {
             return 0;
         });
         $('.results').empty();
-        searchCallback(displayArray);
+        searchCallback(sortArray);
     });
 });
 
