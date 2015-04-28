@@ -7,19 +7,17 @@ var copiedArray = [];
 // Use this function to do stuff with your results. 
 // It is called after 'search' is executed.
 function searchCallback(results) {
-    displayArray = [];
-    displayArray = results;
 
-    for (i = 0; i < displayArray.length; i++) {
+    for (i = 0; i < results.length; i++) {
         // Check if description is null, if null, use deck, store to descriptionString
         var descriptionString = "";
-        if (displayArray[i].description == null || "  " || " ") {
-            descriptionString = displayArray[i].deck;
-            if (displayArray[i].deck == null){
+        if (results[i].description == null || "  " || " ") {
+            descriptionString = results[i].deck;
+            if (results[i].deck == null){
                 descriptionString = "No Description Available";
             }
         } else {
-            descriptionString = displayArray[i].description;
+            descriptionString = results[i].description;
         }
         // Truncate and clean descriptionString
         descriptionString = descriptionString.replace(/<(?:.|\n)*?>/gm, '');
@@ -27,11 +25,11 @@ function searchCallback(results) {
 
         // Check if platform is array, and if it has multiple items store to platformString
         var platformString = "<br>";
-        if(!displayArray[i].platforms.length){
+        if(!results[i].platforms.length){
             platformString += "N/A";
         } else {
-            for (j = 0; j < displayArray[i].platforms.length; j++) {
-                platformString += displayArray[i].platforms[j].name + ", ";
+            for (j = 0; j < results[i].platforms.length; j++) {
+                platformString += results[i].platforms[j].name + ", ";
             }
         }
         // Display image, which is an object not an array.
@@ -48,7 +46,7 @@ function searchCallback(results) {
         $(this).toggleClass('big');
         $(this).children('p').toggleClass('hidden');
     });
-    return displayArray;
+    return results;
 }
 
 $(document).ready(function() {
@@ -58,13 +56,13 @@ $(document).ready(function() {
 
     $('.searchButton').on('click', function(){
         $('.results').empty();
-        displayArray = search($('.searchInput').val());
+        search($('.searchInput').val());
     });
 
     $('.searchInput').keyup(function(key){
         if(key.keyCode ==13){
             $('.results').empty();
-            displayArray = search($('searchInput').val());
+            search($('searchInput').val());
         }
     });
 
@@ -80,6 +78,7 @@ $(document).ready(function() {
     $('.filterInput').keyup(function(key){
         if(key.keyCode ==13) {
             copiedArray = displayArray.slice();
+            console.log(displayArray);
             copiedArray = $.grep(copiedArray, function (obj) {
                 return obj.name.indexOf($('.filterInput').val()) >= 0;
             });
@@ -123,6 +122,8 @@ function search(query){
 	        console.log('ajax complete');
 	    },
 	    success: function(data) {
+            displayArray = [];
+            displayArray = data.results;
 	        searchCallback(data.results);
 	    }
 	});
