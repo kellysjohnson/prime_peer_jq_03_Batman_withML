@@ -24,13 +24,15 @@ function searchCallback(results) {
         descriptionString = descriptionString.slice(0,150);
 
         // Check if platform is array, and if it has multiple items store to platformString
-        var platformString = "<br>";
+        var platformString = "";
         if(!results[i].platforms.length){
             platformString += "N/A";
         } else {
-            for (j = 0; j < results[i].platforms.length; j++) {
+            for (j = 0; j < results[i].platforms.length - 1; j++) {
                 platformString += results[i].platforms[j].name + ", ";
             }
+            platformString += results[i].platforms[j].name;
+
         }
         // Display image, which is an object not an array.
         if(!results[i].image){
